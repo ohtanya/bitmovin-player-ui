@@ -21,11 +21,11 @@
   right: 2em;
 
   > .#{$prefix}-container-wrapper {
-    margin: .5em;
+    // margin: .5em;
     overflow-y: auto;
 
     > * {
-      margin: 0 .5em;
+      // margin: 0 .5em;
     }
   }
 }

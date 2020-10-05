@@ -73,6 +73,7 @@ export interface UIConfig {
    * Default: 1
    */
   seekbarSnappingRange?: number;
+  hideSeekbar?: boolean;
   /**
    * Provide customized errorMessages
    * For an example have a look at {@link ErrorMessageOverlayConfig.messages}

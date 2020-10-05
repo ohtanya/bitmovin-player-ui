@@ -103,7 +103,7 @@ gulp.task('lint-ts', function() {
   }))
   .pipe(tslint.report({
     // Print just the number of errors (instead of printing all errors again)
-    summarizeFailureOutput: true
+    summarizeFailureOutput: false
   }))
 });
 

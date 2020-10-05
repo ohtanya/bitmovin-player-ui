@@ -25,13 +25,14 @@ import { CastToggleButton } from './components/casttogglebutton';
 import { VRToggleButton } from './components/vrtogglebutton';
 import { SettingsToggleButton } from './components/settingstogglebutton';
 import { FullscreenToggleButton } from './components/fullscreentogglebutton';
+import { FullwindowToggleButton } from './components/fullwindowtogglebutton';
 import { UIContainer } from './components/uicontainer';
 import { BufferingOverlay } from './components/bufferingoverlay';
 import { PlaybackToggleOverlay } from './components/playbacktoggleoverlay';
 import { CastStatusOverlay } from './components/caststatusoverlay';
 import { TitleBar } from './components/titlebar';
 import { RecommendationOverlay } from './components/recommendationoverlay';
-import { Watermark } from './components/watermark';
+// import { Watermark } from './components/watermark';
 import { ErrorMessageOverlay } from './components/errormessageoverlay';
 import { AdClickOverlay } from './components/adclickoverlay';
 import { AdMessageLabel } from './components/admessagelabel';
@@ -45,6 +46,7 @@ import { UIConditionContext, UIManager } from './uimanager';
 import { UIConfig } from './uiconfig';
 import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from './localization/i18n';
+import { SubtitleListBox } from './components/subtitlelistbox';
 
 export namespace UIFactory {
 
@@ -145,7 +147,7 @@ export namespace UIFactory {
         controlBar,
         new TitleBar(),
         new RecommendationOverlay(),
-        new Watermark(),
+        // new Watermark(),
         new ErrorMessageOverlay(),
       ],
       hideDelay: 2000,
@@ -165,7 +167,7 @@ export namespace UIFactory {
         new PlaybackToggleOverlay(),
         new Container({
           components: [
-            new AdMessageLabel({ text: i18n.getLocalizer('ads.remainingTime')}),
+            new AdMessageLabel({ text: i18n.getLocalizer('ads.remainingTime') }),
             new AdSkipButton(),
           ],
           cssClass: 'ui-ads-status',
@@ -281,7 +283,7 @@ export namespace UIFactory {
           ],
         }),
         settingsPanel,
-        new Watermark(),
+        // new Watermark(),
         new ErrorMessageOverlay(),
       ],
       cssClasses: ['ui-skin-smallscreen'],
@@ -344,7 +346,7 @@ export namespace UIFactory {
         new SubtitleOverlay(),
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
-        new Watermark(),
+        // new Watermark(),
         controlBar,
         new TitleBar({ keepHiddenWithoutMetadata: true }),
         new ErrorMessageOverlay(),
@@ -363,29 +365,34 @@ export namespace UIFactory {
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;
 
-    return new UIManager(player, [{
-      ui: modernSmallScreenAdsUI(),
-      condition: (context: UIConditionContext) => {
-        return context.isMobile && context.documentWidth < smallScreenSwitchWidth && context.isAd
-          && context.adRequiresUi;
+    return new UIManager(player, [
+      {
+        ui: modernSmallScreenAdsUI(),
+        condition: (context: UIConditionContext) => {
+          return context.isMobile && context.documentWidth < smallScreenSwitchWidth && context.isAd
+            && context.adRequiresUi;
+        },
       },
-    }, {
-      ui: modernAdsUI(),
-      condition: (context: UIConditionContext) => {
-        return context.isAd && context.adRequiresUi;
+      {
+        ui: modernAdsUI(),
+        condition: (context: UIConditionContext) => {
+          return context.isAd && context.adRequiresUi;
+        },
       },
-    }, {
-      ui: modernSmallScreenUI(),
-      condition: (context: UIConditionContext) => {
-        return !context.isAd && !context.adRequiresUi && context.isMobile
-          && context.documentWidth < smallScreenSwitchWidth;
+      {
+        ui: modernSmallScreenUI(),
+        condition: (context: UIConditionContext) => {
+          return !context.isAd && !context.adRequiresUi && context.isMobile
+            && context.documentWidth < smallScreenSwitchWidth;
+        },
       },
-    }, {
-      ui: modernUI(),
-      condition: (context: UIConditionContext) => {
-        return !context.isAd && !context.adRequiresUi;
+      {
+        ui: modernUIWithSeparateAudioSubtitlesButtons(),
+        condition: (context: UIConditionContext) => {
+          return !context.isAd && !context.adRequiresUi;
+        },
       },
-    }], config);
+    ], config);
   }
 
   export function buildModernSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
@@ -404,5 +411,70 @@ export namespace UIFactory {
 
   export function buildModernCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
     return new UIManager(player, modernCastReceiverUI(), config);
+  }
+
+  function modernUIWithSeparateAudioSubtitlesButtons() {
+    let subtitleOverlay = new SubtitleOverlay();
+    let subtitleListBox = new SubtitleListBox();
+    let subtitleSettingsPanel = new SettingsPanel({
+      components: [
+        new SettingsPanelPage({
+          components: [
+            new SettingsPanelItem(null, subtitleListBox),
+          ],
+        }),
+      ],
+      hidden: true,
+    });
+
+    let controlBar = new ControlBar({
+      components: [
+        subtitleSettingsPanel,
+        new Container({
+          components: [
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+            new SeekBar({ label: new SeekBarLabel() }),
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+          ],
+          cssClasses: ['controlbar-top'],
+        }),
+        new Container({
+          components: [
+            new PlaybackToggleButton(),
+            new VolumeToggleButton(),
+            new VolumeSlider(),
+            new Spacer(),
+            new PictureInPictureToggleButton(),
+            new AirPlayToggleButton(),
+            new CastToggleButton(),
+            new VRToggleButton(),
+            // new SettingsToggleButton({
+            //   settingsPanel: audioTrackSettingsPanel,
+            //   cssClass: 'ui-audiotracksettingstogglebutton',
+            // }),
+            new SettingsToggleButton({
+              settingsPanel: subtitleSettingsPanel,
+              cssClass: 'ui-subtitlesettingstogglebutton',
+            }),
+            // new SettingsToggleButton({ settingsPanel: settingsPanel }),
+            new FullscreenToggleButton(),
+            new FullwindowToggleButton(),
+          ],
+          cssClasses: ['controlbar-bottom'],
+        }),
+      ],
+    });
+
+    return new UIContainer({
+      components: [
+        subtitleOverlay,
+        new BufferingOverlay(),
+        new PlaybackToggleOverlay(),
+        new CastStatusOverlay(),
+        controlBar,
+        new TitleBar(),
+        new ErrorMessageOverlay(),
+      ],
+    });
   }
 }

@@ -1,7 +1,7 @@
 @import '../variables';
 @import '../mixins';
 
-$seekbar-height: .3125em;
+$seekbar-height: .125em;
 
 %ui-seekbar {
   @extend %ui-component;
@@ -66,10 +66,10 @@ $seekbar-height: .3125em;
 
     .#{$prefix}-seekbar-playbackposition-marker {
       @extend %bar;
-      @include seekbar-position-marker($seekbar-height * 3);
+      @include seekbar-position-marker($seekbar-height * 6);
 
-      background-color: transparentize($color-highlight, .5);
-      border: solid $color-highlight .1875em;
+      background-color: $color-highlight;
+      // border: solid $color-highlight .1875em;
       border-radius: 50%;
     }
 

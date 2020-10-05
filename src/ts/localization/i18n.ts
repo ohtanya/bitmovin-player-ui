@@ -71,6 +71,7 @@ interface Vocabulary {
   'open': string;
   'close': string;
   'fullscreen': string;
+  'fullwindow': string;
   'speed': string;
   'playPause': string;
   'live': string;

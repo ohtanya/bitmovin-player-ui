@@ -16,6 +16,7 @@ export { ErrorUtils } from './errorutils';
 export { Button } from './components/button';
 export { ControlBar } from './components/controlbar';
 export { FullscreenToggleButton } from './components/fullscreentogglebutton';
+export { FullwindowToggleButton } from './components/fullwindowtogglebutton';
 export { HugePlaybackToggleButton } from './components/hugeplaybacktogglebutton';
 export { PlaybackTimeLabel, PlaybackTimeLabelMode } from './components/playbacktimelabel';
 export { PlaybackToggleButton } from './components/playbacktogglebutton';
