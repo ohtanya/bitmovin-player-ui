@@ -25,17 +25,20 @@ export class FullwindowToggleButton extends ToggleButton<ToggleButtonConfig> {
     };
 
     player.on(player.exports.PlayerEvent.ViewModeChanged, fullscreenStateHandler);
-
+    const fullwindowTarget = uimanager.getConfig().fullwindowTarget;
     const body = document.getElementsByTagName('body')[0];
+    const targetNode = <Element>fullwindowTarget || body;
+
+    // const targetNode = typeof fullwindowTarget === 'node' ? fullwindowTarget : body;
     const fullwindowClass = this.prefixCss('fullwindow');
 
     this.onClick.subscribe(() => {
-      if (body.classList.contains(fullwindowClass)) {
+      if (targetNode.classList.contains(fullwindowClass)) {
         this.off();
-        body.classList.remove(fullwindowClass);
+        targetNode.classList.remove(fullwindowClass);
       } else {
         this.on();
-        body.classList.add(fullwindowClass);
+        targetNode.classList.add(fullwindowClass);
       }
     });
   }

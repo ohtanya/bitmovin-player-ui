@@ -74,6 +74,7 @@ export interface UIConfig {
    */
   seekbarSnappingRange?: number;
   hideSeekbar?: boolean;
+  fullwindowTarget?: Node;
   /**
    * Provide customized errorMessages
    * For an example have a look at {@link ErrorMessageOverlayConfig.messages}

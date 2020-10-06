@@ -152,6 +152,7 @@ export class UIManager {
       },
       volumeController: new VolumeController(this.managerPlayerWrapper.getPlayer()),
       hideSeekbar: true,
+      fullwindowTarget: document.querySelector('.container')
     };
 
     /**

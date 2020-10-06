@@ -202,10 +202,10 @@ export namespace UIFactory {
 
     let mainSettingsPanelPage = new SettingsPanelPage({
       components: [
-        new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
+        // new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
+        // new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
+        // new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
+        // new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
       ],
     });
 
@@ -239,9 +239,7 @@ export namespace UIFactory {
           opener: subtitleSettingsOpenButton,
         }),
         subtitleSelectBox,
-        {
-          role: 'menubar',
-        },
+        { role: 'menubar' },
       ));
 
     settingsPanel.addComponent(subtitleSettingsPanelPage);
@@ -256,6 +254,10 @@ export namespace UIFactory {
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
             new SeekBar({ label: new SeekBarLabel() }),
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+            new VolumeToggleButton(),
+            new Spacer(),
+            new FullscreenToggleButton(),
+            new FullwindowToggleButton(),
           ],
           cssClasses: ['controlbar-top'],
         }),
@@ -277,9 +279,7 @@ export namespace UIFactory {
             new VRToggleButton(),
             new PictureInPictureToggleButton(),
             new AirPlayToggleButton(),
-            new VolumeToggleButton(),
             new SettingsToggleButton({ settingsPanel: settingsPanel }),
-            new FullscreenToggleButton(),
           ],
         }),
         settingsPanel,
@@ -415,6 +415,7 @@ export namespace UIFactory {
 
   function modernUIWithSeparateAudioSubtitlesButtons() {
     let subtitleOverlay = new SubtitleOverlay();
+
     let subtitleListBox = new SubtitleListBox();
     let subtitleSettingsPanel = new SettingsPanel({
       components: [
@@ -448,15 +449,10 @@ export namespace UIFactory {
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
-            // new SettingsToggleButton({
-            //   settingsPanel: audioTrackSettingsPanel,
-            //   cssClass: 'ui-audiotracksettingstogglebutton',
-            // }),
             new SettingsToggleButton({
               settingsPanel: subtitleSettingsPanel,
               cssClass: 'ui-subtitlesettingstogglebutton',
             }),
-            // new SettingsToggleButton({ settingsPanel: settingsPanel }),
             new FullscreenToggleButton(),
             new FullwindowToggleButton(),
           ],
