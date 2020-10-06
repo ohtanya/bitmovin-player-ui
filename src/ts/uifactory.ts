@@ -366,29 +366,29 @@ export namespace UIFactory {
     let smallScreenSwitchWidth = 600;
 
     return new UIManager(player, [
-      {
-        ui: modernSmallScreenAdsUI(),
-        condition: (context: UIConditionContext) => {
-          return context.isMobile && context.documentWidth < smallScreenSwitchWidth && context.isAd
-            && context.adRequiresUi;
-        },
-      },
-      {
-        ui: modernAdsUI(),
-        condition: (context: UIConditionContext) => {
-          return context.isAd && context.adRequiresUi;
-        },
-      },
+      // {
+      //   ui: modernSmallScreenAdsUI(),
+      //   condition: (context: UIConditionContext) => {
+      //     return context.isMobile && context.documentWidth < smallScreenSwitchWidth && context.isAd
+      //       && context.adRequiresUi;
+      //   },
+      // },
+      // {
+      //   ui: modernAdsUI(),
+      //   condition: (context: UIConditionContext) => {
+      //     return context.isAd && context.adRequiresUi;
+      //   },
+      // },
       {
         ui: modernSmallScreenUI(),
         condition: (context: UIConditionContext) => {
-          return !context.isAd && !context.adRequiresUi && context.isMobile
-            && context.documentWidth < smallScreenSwitchWidth;
+          return context.documentWidth < smallScreenSwitchWidth;
         },
       },
       {
         ui: modernUIWithSeparateAudioSubtitlesButtons(),
         condition: (context: UIConditionContext) => {
+          console.log(config);
           return !context.isAd && !context.adRequiresUi;
         },
       },

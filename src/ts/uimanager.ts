@@ -151,8 +151,6 @@ export class UIManager {
         onUpdated: new EventDispatcher<UIManager, void>(),
       },
       volumeController: new VolumeController(this.managerPlayerWrapper.getPlayer()),
-      hideSeekbar: true,
-      fullwindowTarget: document.querySelector('.container')
     };
 
     /**

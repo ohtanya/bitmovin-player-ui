@@ -20,19 +20,9 @@ export class FullwindowToggleButton extends ToggleButton<ToggleButtonConfig> {
   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
     super.configure(player, uimanager);
 
-    const fullscreenStateHandler = () => {
-      player.getViewMode() === player.exports.ViewMode.Fullscreen ? this.hide() : this.show();
-    };
-
-    player.on(player.exports.PlayerEvent.ViewModeChanged, fullscreenStateHandler);
-    const fullwindowTarget = uimanager.getConfig().fullwindowTarget;
-    const body = document.getElementsByTagName('body')[0];
-    const targetNode = <Element>fullwindowTarget || body;
-
-    // const targetNode = typeof fullwindowTarget === 'node' ? fullwindowTarget : body;
-    const fullwindowClass = this.prefixCss('fullwindow');
-
-    this.onClick.subscribe(() => {
+    const toggle = () => {
+      const targetNode = document.getElementsByTagName('body')[0];
+      const fullwindowClass = this.prefixCss('fullwindow');
       if (targetNode.classList.contains(fullwindowClass)) {
         this.off();
         targetNode.classList.remove(fullwindowClass);
@@ -40,6 +30,8 @@ export class FullwindowToggleButton extends ToggleButton<ToggleButtonConfig> {
         this.on();
         targetNode.classList.add(fullwindowClass);
       }
-    });
+    };
+
+    this.onClick.subscribe(toggle);
   }
 }
