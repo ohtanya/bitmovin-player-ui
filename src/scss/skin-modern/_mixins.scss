@@ -139,3 +139,13 @@
     outline: none;
   }
 }
+
+@mixin box-icon($icon, $font-size: 26px) {
+  &:before {
+    content: $icon;
+    font-family: boxicons !important;
+    font-size: $font-size;
+    line-height: $font-size;
+    color: white;
+  }
+}

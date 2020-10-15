@@ -1,7 +1,7 @@
-import {Container, ContainerConfig} from './container';
-import {SettingsPanelItem} from './settingspanelitem';
-import {UIInstanceManager} from '../uimanager';
-import {Event, EventDispatcher, NoArgs} from '../eventdispatcher';
+import { Container, ContainerConfig } from './container';
+import { SettingsPanelItem } from './settingspanelitem';
+import { UIInstanceManager } from '../uimanager';
+import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
 import { PlayerAPI } from 'bitmovin-player';
 import { BrowserUtils } from '../browserutils';
 
@@ -75,7 +75,6 @@ export class SettingsPanelPage extends Container<ContainerConfig> {
 
   onActiveEvent() {
     const activeItems = this.getItems().filter((item) => item.isActive());
-
     this.settingsPanelPageEvents.onActive.dispatch(this);
     // Disable focus for iOS and iPadOS 13. They open select boxes automatically on focus and we want to avoid that.
     if (activeItems.length > 0 && !BrowserUtils.isIOS && !(BrowserUtils.isMacIntel && BrowserUtils.isTouchSupported)) {

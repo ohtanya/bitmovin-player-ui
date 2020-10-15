@@ -71,7 +71,6 @@ export namespace MockHelper {
           PlayerEvent,
           ViewMode: {
             Fullscreen: 'fullscreen',
-            Fullwindow: 'fullwindow',
             PictureInPicture: 'pictureinpicture',
           },
         },

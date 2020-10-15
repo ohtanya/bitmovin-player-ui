@@ -1,6 +1,6 @@
-import {ToggleButton, ToggleButtonConfig} from './togglebutton';
-import {UIInstanceManager} from '../uimanager';
-import {PlayerUtils} from '../playerutils';
+import { ToggleButton, ToggleButtonConfig } from './togglebutton';
+import { UIInstanceManager } from '../uimanager';
+import { PlayerUtils } from '../playerutils';
 import { PlayerAPI, WarningEvent } from 'bitmovin-player';
 import { i18n } from '../localization/i18n';
 
@@ -45,7 +45,7 @@ export class PlaybackToggleButton extends ToggleButton<ToggleButtonConfig> {
     };
 
     // Call handler upon these events
-    player.on(player.exports.PlayerEvent.Play, (e) => {
+    player.on(player.exports.PlayerEvent.Play, () => {
       this.isPlayInitiated = true;
       playbackStateHandler();
     });

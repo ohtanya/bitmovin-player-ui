@@ -67,6 +67,7 @@ export interface UIConditionContext {
    * The width of the document where the player/UI is embedded in.
    */
   documentWidth: number;
+  isLive: boolean;
 }
 
 /**
@@ -414,6 +415,7 @@ export class UIManager {
       isPlaying: this.player.isPlaying(),
       width: this.uiContainerElement.width(),
       documentWidth: document.body.clientWidth,
+      isLive: this.player.isLive(),
     };
 
     // Overwrite properties of the default context with passed in context properties

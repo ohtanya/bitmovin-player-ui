@@ -3,6 +3,7 @@
 
 .#{$prefix}-ui-controlbar {
   @extend %ui-container;
+  opacity: 1 !important;
 
   @include hidden-animated-focusable;
   @include layout-align-bottom;
@@ -17,6 +18,7 @@
     > .#{$prefix}-container-wrapper {
       display: flex;
       margin: .5em 0;
+      align-items: center;
     }
   }
 
@@ -39,6 +41,15 @@
         margin: auto .5em;
         width: 5em;
       }
+    }
+  }
+
+  .#{$prefix}-current-time {
+    &:after {
+      content: '/';
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: -5px;
     }
   }
 }

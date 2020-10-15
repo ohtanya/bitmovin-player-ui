@@ -5,7 +5,7 @@ $seekbar-height: .125em;
 
 %ui-seekbar {
   @extend %ui-component;
-
+  margin: 0 1em;
   @include hidden;
   @include focusable;
 
@@ -66,10 +66,10 @@ $seekbar-height: .125em;
 
     .#{$prefix}-seekbar-playbackposition-marker {
       @extend %bar;
-      @include seekbar-position-marker($seekbar-height * 6);
+      @include seekbar-position-marker($seekbar-height * 3);
 
       background-color: $color-highlight;
-      // border: solid $color-highlight .1875em;
+      border: solid $color-highlight 2px;
       border-radius: 50%;
     }
 
@@ -80,7 +80,7 @@ $seekbar-height: .125em;
 
       height: $seekbar-height * 3 - .375em;
 
-      > .#{$prefix}-seekbar-marker {
+      >.#{$prefix}-seekbar-marker {
         @extend %bar;
 
         background-color: $color-primary;
@@ -91,7 +91,7 @@ $seekbar-height: .125em;
         transition-duration: 1s;
         transition-timing-function: linear;
 
-        > .#{$prefix}-seekbar-marker-image {
+        >.#{$prefix}-seekbar-marker-image {
           position: absolute;
           height: $seekbar-height * 4;
           transform: translate(-50%, calc(-100% - .2em));
@@ -103,6 +103,7 @@ $seekbar-height: .125em;
   // disable animations during seeks
   &.#{$prefix}-seeking {
     .#{$prefix}-seekbar {
+
       .#{$prefix}-seekbar-bufferlevel,
       .#{$prefix}-seekbar-playbackposition {
         transition: none;

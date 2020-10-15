@@ -25,7 +25,6 @@ import { CastToggleButton } from './components/casttogglebutton';
 import { VRToggleButton } from './components/vrtogglebutton';
 import { SettingsToggleButton } from './components/settingstogglebutton';
 import { FullscreenToggleButton } from './components/fullscreentogglebutton';
-import { FullwindowToggleButton } from './components/fullwindowtogglebutton';
 import { UIContainer } from './components/uicontainer';
 import { BufferingOverlay } from './components/bufferingoverlay';
 import { PlaybackToggleOverlay } from './components/playbacktoggleoverlay';
@@ -47,6 +46,7 @@ import { UIConfig } from './uiconfig';
 import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from './localization/i18n';
 import { SubtitleListBox } from './components/subtitlelistbox';
+import { VolumeControlButton } from './components/volumecontrolbutton';
 
 export namespace UIFactory {
 
@@ -123,8 +123,9 @@ export namespace UIFactory {
         new Container({
           components: [
             new PlaybackToggleButton(),
-            new VolumeToggleButton(),
-            new VolumeSlider(),
+            // new VolumeToggleButton(),
+            // new VolumeSlider(),
+            new VolumeControlButton(),
             new Spacer(),
             new PictureInPictureToggleButton(),
             new AirPlayToggleButton(),
@@ -257,7 +258,6 @@ export namespace UIFactory {
             new VolumeToggleButton(),
             new Spacer(),
             new FullscreenToggleButton(),
-            new FullwindowToggleButton(),
           ],
           cssClasses: ['controlbar-top'],
         }),
@@ -277,7 +277,7 @@ export namespace UIFactory {
             new MetadataLabel({ content: MetadataLabelContent.Title }),
             new CastToggleButton(),
             new VRToggleButton(),
-            new PictureInPictureToggleButton(),
+            // new PictureInPictureToggleButton(),
             new AirPlayToggleButton(),
             new SettingsToggleButton({ settingsPanel: settingsPanel }),
           ],
@@ -380,6 +380,12 @@ export namespace UIFactory {
       //   },
       // },
       {
+        ui: modernUIWithSeparateAudioSubtitlesButtonsLive(),
+        condition: (context: UIConditionContext) => {
+          return context.isLive;
+        },
+      },
+      {
         ui: modernSmallScreenUI(),
         condition: (context: UIConditionContext) => {
           return context.documentWidth < smallScreenSwitchWidth;
@@ -388,7 +394,6 @@ export namespace UIFactory {
       {
         ui: modernUIWithSeparateAudioSubtitlesButtons(),
         condition: (context: UIConditionContext) => {
-          console.log(config);
           return !context.isAd && !context.adRequiresUi;
         },
       },
@@ -413,9 +418,8 @@ export namespace UIFactory {
     return new UIManager(player, modernCastReceiverUI(), config);
   }
 
-  function modernUIWithSeparateAudioSubtitlesButtons() {
+  function modernUIWithSeparateAudioSubtitlesButtonsLive() {
     let subtitleOverlay = new SubtitleOverlay();
-
     let subtitleListBox = new SubtitleListBox();
     let subtitleSettingsPanel = new SettingsPanel({
       components: [
@@ -431,21 +435,22 @@ export namespace UIFactory {
     let controlBar = new ControlBar({
       components: [
         subtitleSettingsPanel,
+        // new Container({
+        //   components: [
+        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+        //     new SeekBar({ label: new SeekBarLabel() }),
+        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+        //   ],
+        //   cssClasses: ['controlbar-top'],
+        // }),
         new Container({
           components: [
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-            new SeekBar({ label: new SeekBarLabel() }),
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-          ],
-          cssClasses: ['controlbar-top'],
-        }),
-        new Container({
-          components: [
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime }),
             new PlaybackToggleButton(),
             new VolumeToggleButton(),
             new VolumeSlider(),
-            new Spacer(),
-            new PictureInPictureToggleButton(),
+            // new VolumeControlButton(),
+            // new SeekBar(),
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
@@ -454,7 +459,67 @@ export namespace UIFactory {
               cssClass: 'ui-subtitlesettingstogglebutton',
             }),
             new FullscreenToggleButton(),
-            new FullwindowToggleButton(),
+          ],
+          cssClasses: ['controlbar-bottom'],
+        }),
+      ],
+    });
+
+    return new UIContainer({
+      components: [
+        subtitleOverlay,
+        new BufferingOverlay(),
+        new PlaybackToggleOverlay(),
+        new CastStatusOverlay(),
+        controlBar,
+        new TitleBar(),
+        new ErrorMessageOverlay(),
+      ],
+    });
+  }
+
+  function modernUIWithSeparateAudioSubtitlesButtons() {
+    let subtitleOverlay = new SubtitleOverlay();
+    let subtitleListBox = new SubtitleListBox();
+    let subtitleSettingsPanel = new SettingsPanel({
+      components: [
+        new SettingsPanelPage({
+          components: [
+            new SettingsPanelItem(null, subtitleListBox),
+          ],
+        }),
+      ],
+      hidden: true,
+    });
+
+    let controlBar = new ControlBar({
+      components: [
+        subtitleSettingsPanel,
+        // new Container({
+        //   components: [
+        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+        //     new SeekBar({ label: new SeekBarLabel() }),
+        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+        //   ],
+        //   cssClasses: ['controlbar-top'],
+        // }),
+        new Container({
+          components: [
+            new PlaybackToggleButton(),
+            new VolumeToggleButton(),
+            new VolumeSlider(),
+            // new VolumeControlButton({ vertical: true }),
+            new SeekBar(),
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true, cssClasses: ['current-time'] }),
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime }),
+            new AirPlayToggleButton(),
+            new CastToggleButton(),
+            new VRToggleButton(),
+            new SettingsToggleButton({
+              settingsPanel: subtitleSettingsPanel,
+              cssClass: 'ui-subtitlesettingstogglebutton',
+            }),
+            new FullscreenToggleButton(),
           ],
           cssClasses: ['controlbar-bottom'],
         }),

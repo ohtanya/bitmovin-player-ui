@@ -211,7 +211,12 @@
     remotecontrol: {
       type: 'googlecast',
     },
-    advertising: adsEnabled ? advertisingConfig : null
+    advertising: adsEnabled ? advertisingConfig : null, 
+    playback: {
+      autoplay: true,
+      disableUserPlay: true,
+      disableFullscreen: true,
+    }
   };
 
   var uiConfig = {};

@@ -2,8 +2,23 @@
 
 .#{$prefix}-ui-playbacktimelabel {
   @extend %ui-label;
-
+  font-size: .8em;
   text-transform: uppercase;
+
+  &.#{$prefix}-current-time {
+
+    // margin-right: -10px;
+    &:after {
+      content: '/';
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+
+  &:last-of-type {
+    margin-right: 1.5em;
+  }
 
   &.#{$prefix}-ui-playbacktimelabel-live {
     cursor: pointer;
@@ -13,6 +28,7 @@
       content: '●';
       padding-right: .2em;
     }
+
 
     &.#{$prefix}-ui-playbacktimelabel-live-edge {
       &::before {

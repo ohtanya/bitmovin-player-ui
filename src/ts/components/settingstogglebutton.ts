@@ -1,8 +1,8 @@
-import {ToggleButton, ToggleButtonConfig} from './togglebutton';
-import {SettingsPanel} from './settingspanel';
-import {UIInstanceManager} from '../uimanager';
-import {Component, ComponentConfig} from './component';
-import {ArrayUtils} from '../arrayutils';
+import { ToggleButton, ToggleButtonConfig } from './togglebutton';
+import { SettingsPanel } from './settingspanel';
+import { UIInstanceManager } from '../uimanager';
+import { Component, ComponentConfig } from './component';
+import { ArrayUtils } from '../arrayutils';
 import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from '../localization/i18n';
 
@@ -64,13 +64,26 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
 
     this.onClick.subscribe(() => {
       // only hide other `SettingsPanel`s if a new one will be opened
-      if (!settingsPanel.isShown()) {
-        // Hide all open SettingsPanels before opening this button's panel
-        // (We need to iterate a copy because hiding them will automatically remove themselves from the array
-        // due to the subscribeOnce above)
-        this.visibleSettingsPanels.slice().forEach(settingsPanel => settingsPanel.hide());
+      const subtitlesList = player.subtitles.list().filter(sub => sub.kind === 'subtitle');
+      if (subtitlesList.length === 1) {
+        const subtitleTrack = subtitlesList[0];
+        if (this.isOn()) {
+          player.subtitles.disable(subtitleTrack.id);
+          this.off();
+        } else {
+          player.subtitles.enable(subtitleTrack.id);
+          this.on();
+        }
+      } else {
+        if (!settingsPanel.isShown()) {
+          // Hide all open SettingsPanels before opening this button's panel
+          // (We need to iterate a copy because hiding them will automatically remove themselves from the array
+          // due to the subscribeOnce above)
+          this.visibleSettingsPanels.slice().forEach(settingsPanel => settingsPanel.hide());
+        }
+        settingsPanel.toggleHidden();
       }
-      settingsPanel.toggleHidden();
+
     });
     settingsPanel.onShow.subscribe(() => {
       // Set toggle status to on when the settings panel shows
