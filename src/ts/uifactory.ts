@@ -32,6 +32,7 @@ import { CastStatusOverlay } from './components/caststatusoverlay';
 import { TitleBar } from './components/titlebar';
 import { RecommendationOverlay } from './components/recommendationoverlay';
 // import { Watermark } from './components/watermark';
+import { DLXWatermarkOverlay } from './components/dlx_watermark_overlay';
 import { ErrorMessageOverlay } from './components/errormessageoverlay';
 import { AdClickOverlay } from './components/adclickoverlay';
 import { AdMessageLabel } from './components/admessagelabel';
@@ -529,6 +530,7 @@ export namespace UIFactory {
     return new UIContainer({
       components: [
         subtitleOverlay,
+        new DLXWatermarkOverlay(),
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
         new CastStatusOverlay(),
