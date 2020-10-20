@@ -438,14 +438,6 @@ export namespace UIFactory {
     let controlBar = new ControlBar({
       components: [
         subtitleSettingsPanel,
-        // new Container({
-        //   components: [
-        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-        //     new SeekBar({ label: new SeekBarLabel() }),
-        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-        //   ],
-        //   cssClasses: ['controlbar-top'],
-        // }),
         new Container({
           components: [
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime }),
