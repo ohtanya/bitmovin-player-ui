@@ -48,6 +48,7 @@ import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from './localization/i18n';
 import { SubtitleListBox } from './components/subtitlelistbox';
 import { VolumeControlButton } from './components/volumecontrolbutton';
+import { AudioTrackListBox } from './components/audiotracklistbox';
 
 export namespace UIFactory {
 
@@ -254,7 +255,7 @@ export namespace UIFactory {
         new Container({
           components: [
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-            new SeekBar({ label: new SeekBarLabel() }),
+            // new SeekBar({ label: new SeekBarLabel() }),
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
             new VolumeToggleButton(),
             new Spacer(),
@@ -402,6 +403,7 @@ export namespace UIFactory {
   }
 
   export function buildModernSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+    console.log('buildModernSmallScreenUI');
     return new UIManager(player, [{
       ui: modernSmallScreenAdsUI(),
       condition: (context: UIConditionContext) => {
@@ -452,6 +454,7 @@ export namespace UIFactory {
             new VolumeSlider(),
             // new VolumeControlButton(),
             // new SeekBar(),
+            new Spacer(),
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
@@ -481,6 +484,20 @@ export namespace UIFactory {
 
   function modernUIWithSeparateAudioSubtitlesButtons() {
     let subtitleOverlay = new SubtitleOverlay();
+
+    let settingsPanel = new SettingsPanel({
+      components: [
+        new SettingsPanelPage({
+          components: [
+            new SettingsPanelItem('Video Quality', new VideoQualitySelectBox()),
+            new SettingsPanelItem('Speed', new PlaybackSpeedSelectBox()),
+            new SettingsPanelItem('Audio Quality', new AudioQualitySelectBox()),
+          ],
+        }),
+      ],
+      hidden: true,
+    });
+
     let subtitleListBox = new SubtitleListBox();
     let subtitleSettingsPanel = new SettingsPanel({
       components: [
@@ -493,29 +510,37 @@ export namespace UIFactory {
       hidden: true,
     });
 
+    let audioTrackListBox = new AudioTrackListBox();
+    let audioTrackSettingsPanel = new SettingsPanel({
+      components: [
+        new SettingsPanelPage({
+          components: [
+            new SettingsPanelItem(null, audioTrackListBox),
+          ],
+        }),
+      ],
+      hidden: true,
+    });
+
     let controlBar = new ControlBar({
       components: [
+        audioTrackSettingsPanel,
         subtitleSettingsPanel,
-        // new Container({
-        //   components: [
-        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-        //     new SeekBar({ label: new SeekBarLabel() }),
-        //     new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-        //   ],
-        //   cssClasses: ['controlbar-top'],
-        // }),
         new Container({
           components: [
             new PlaybackToggleButton(),
             new VolumeToggleButton(),
             new VolumeSlider(),
-            // new VolumeControlButton({ vertical: true }),
             new SeekBar(),
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true, cssClasses: ['current-time'] }),
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime }),
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
+            new SettingsToggleButton({
+              settingsPanel: audioTrackSettingsPanel,
+              cssClass: 'ui-audiotracksettingstogglebutton',
+            }),
             new SettingsToggleButton({
               settingsPanel: subtitleSettingsPanel,
               cssClass: 'ui-subtitlesettingstogglebutton',

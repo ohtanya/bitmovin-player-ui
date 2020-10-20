@@ -61,11 +61,11 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
 
     let config = this.getConfig();
     let settingsPanel = config.settingsPanel;
-
     this.onClick.subscribe(() => {
       // only hide other `SettingsPanel`s if a new one will be opened
-      const subtitlesList = player.subtitles.list().filter(sub => sub.kind === 'subtitle');
-      if (subtitlesList.length === 1) {
+      const subtitlesList = player.subtitles.list();
+      console.log(subtitlesList);
+      if (config.cssClass === 'ui-subtitlesettingstogglebutton' && subtitlesList.length === 1) {
         const subtitleTrack = subtitlesList[0];
         if (this.isOn()) {
           player.subtitles.disable(subtitleTrack.id);

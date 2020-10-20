@@ -3,7 +3,6 @@
 
 .#{$prefix}-ui-controlbar {
   @extend %ui-container;
-  opacity: 1 !important;
 
   @include hidden-animated-focusable;
   @include layout-align-bottom;
