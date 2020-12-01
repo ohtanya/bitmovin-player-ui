@@ -5,7 +5,7 @@
   @extend %ui-button;
 
   // background-image: svg('assets/skin-modern/images/play.svg');
-  @include box-icon("\eb86");
+  @include box-icon("\eb1e");
   
   &:hover {
     @include svg-icon-shadow;
@@ -13,11 +13,11 @@
   
   &.#{$prefix}-on {
     // background-image: svg('assets/skin-modern/images/pause.svg');
-    @include box-icon("\eb78");
+    @include box-icon("\eb10");
     
     &.#{$prefix}-stoptoggle {
       // background-image: svg('assets/skin-modern/images/stop.svg');
-      @include box-icon("\ebee");
+      @include box-icon("\eb87");
     }
   }
 }

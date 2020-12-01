@@ -4,7 +4,7 @@
 .#{$prefix}-ui-fullscreentogglebutton {
   @extend %ui-button;
   // background-image: svg('assets/skin-modern/images/fullscreen.svg');
-  @include box-icon("\eab7", 20px);
+  @include box-icon("\ea4d", 20px);
 
   &:before {
     line-height: 22px;
@@ -16,6 +16,6 @@
 
   &.#{$prefix}-on {
     // background-image: svg('assets/skin-modern/images/fullscreenX.svg');
-    @include box-icon("\ea98", 20px);
+    @include box-icon("\ea2d", 20px);
   }
 }

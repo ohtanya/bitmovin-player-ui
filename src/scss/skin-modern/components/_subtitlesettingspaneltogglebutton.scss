@@ -1,15 +1,15 @@
 // demo for extracted audio tracks and subtitle settings from the settings panel direct into the controlBar
 @import '../variables';
-@import url('//unpkg.com/boxicons@2.0.5/css/boxicons.min.css');
+@import url('//unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
 
 .#{$prefix}-ui-subtitlesettingstogglebutton {
   @extend %ui-settingstogglebutton;
-  @include box-icon("\e9f6", 22px);
+  @include box-icon("\e989", 22px);
   
   // background-image: svg('assets/skin-modern/images/subtitles.svg');
   
   &.#{$prefix}-on {
-    @include box-icon("\ecc8", 22px);
+    @include box-icon("\ec67", 22px);
     // background-image: svg('assets/skin-modern/images/subtitlesX.svg');
   }
 }

@@ -202,63 +202,33 @@ export namespace UIFactory {
 
   export function modernSmallScreenUI() {
     let subtitleOverlay = new SubtitleOverlay();
-
-    let mainSettingsPanelPage = new SettingsPanelPage({
+    let subtitleListBox = new SubtitleListBox();
+    let subtitleSettingsPanel = new SettingsPanel({
       components: [
-        // new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
-        // new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
-        // new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
-        // new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
-      ],
-    });
-
-    let settingsPanel = new SettingsPanel({
-      components: [
-        mainSettingsPanelPage,
+        new SettingsPanelPage({
+          components: [
+            new SettingsPanelItem(null, subtitleListBox),
+          ],
+        }),
       ],
       hidden: true,
-      pageTransitionAnimation: false,
-      hideDelay: -1,
     });
-
-    let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
-      settingsPanel: settingsPanel,
-      overlay: subtitleOverlay,
-    });
-
-    let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
-      targetPage: subtitleSettingsPanelPage,
-      container: settingsPanel,
-      ariaLabel: i18n.getLocalizer('settings.subtitles'),
-      text: i18n.getLocalizer('open'),
-    });
-
-    const subtitleSelectBox = new SubtitleSelectBox();
-
-    mainSettingsPanelPage.addComponent(
-      new SettingsPanelItem(
-        new SubtitleSettingsLabel({
-          text: i18n.getLocalizer('settings.subtitles'),
-          opener: subtitleSettingsOpenButton,
-        }),
-        subtitleSelectBox,
-        { role: 'menubar' },
-      ));
-
-    settingsPanel.addComponent(subtitleSettingsPanelPage);
-
-    settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
-    subtitleSettingsPanelPage.addComponent(new CloseButton({ target: settingsPanel }));
 
     let controlBar = new ControlBar({
       components: [
+        subtitleSettingsPanel,
         new Container({
           components: [
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-            // new SeekBar({ label: new SeekBarLabel() }),
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+            new PlaybackToggleButton(),
             new VolumeToggleButton(),
-            new Spacer(),
+            // new Spacer(),
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+            new SeekBar({ label: new SeekBarLabel() }),
+            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+            new SettingsToggleButton({
+              settingsPanel: subtitleSettingsPanel,
+              cssClass: 'ui-subtitlesettingstogglebutton',
+            }),
             new FullscreenToggleButton(),
           ],
           cssClasses: ['controlbar-top'],
@@ -281,10 +251,8 @@ export namespace UIFactory {
             new VRToggleButton(),
             // new PictureInPictureToggleButton(),
             new AirPlayToggleButton(),
-            new SettingsToggleButton({ settingsPanel: settingsPanel }),
           ],
         }),
-        settingsPanel,
         // new Watermark(),
         new ErrorMessageOverlay(),
       ],

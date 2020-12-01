@@ -14,13 +14,13 @@
 
   &.#{$prefix}-muted {
     // background-image: svg('assets/skin-modern/images/music-off.svg');
-    @include box-icon("\eea3");
+    @include box-icon("\ee4b");
   }
 
   &.#{$prefix}-unmuted {
     &[data-#{$prefix}-volume-level-tens='0'] {
       // background-image: svg('assets/skin-modern/images/music-off.svg');
-      @include box-icon("\eea3");
+      @include box-icon("\ee48");
     }
 
     &[data-#{$prefix}-volume-level-tens='1'],
@@ -29,7 +29,7 @@
     &[data-#{$prefix}-volume-level-tens='4'],
     &[data-#{$prefix}-volume-level-tens='5'] {
       // background-image: svg('assets/skin-modern/images/music-low.svg');
-      @include box-icon("\eea2");
+      @include box-icon("\ee4a");
     }
 
     &[data-#{$prefix}-volume-level-tens='6'],
@@ -38,7 +38,7 @@
     &[data-#{$prefix}-volume-level-tens='9'],
     &[data-#{$prefix}-volume-level-tens='10'] {
       // background-image: svg('assets/skin-modern/images/music-on.svg');
-      @include box-icon("\eea1");
+      @include box-icon("\ee49");
     }
   }
 }
