@@ -24,6 +24,7 @@ export interface SettingsPanelConfig extends ContainerConfig {
    * Default: true
    */
   pageTransitionAnimation?: boolean;
+  addCssClass?: string;
 }
 
 enum NavigationDirection {
@@ -70,9 +71,8 @@ export class SettingsPanel extends Container<SettingsPanelConfig> {
 
   constructor(config: SettingsPanelConfig) {
     super(config);
-
     this.config = this.mergeConfig(config, {
-      cssClass: 'ui-settings-panel',
+      cssClass: `ui-settings-panel ${config.addCssClass || ''}`,
       hideDelay: 3000,
       pageTransitionAnimation: true,
     } as SettingsPanelConfig, this.config);

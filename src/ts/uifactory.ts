@@ -393,6 +393,7 @@ export namespace UIFactory {
     let subtitleOverlay = new SubtitleOverlay();
     let subtitleListBox = new SubtitleListBox();
     let subtitleSettingsPanel = new SettingsPanel({
+      addCssClass: 'subs',
       components: [
         new SettingsPanelPage({
           components: [
@@ -460,6 +461,7 @@ export namespace UIFactory {
 
     let subtitleListBox = new SubtitleListBox();
     let subtitleSettingsPanel = new SettingsPanel({
+      addCssClass: 'subs',
       components: [
         new SettingsPanelPage({
           components: [

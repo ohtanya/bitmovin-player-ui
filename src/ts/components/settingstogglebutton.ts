@@ -64,6 +64,7 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
     this.onClick.subscribe(() => {
       // only hide other `SettingsPanel`s if a new one will be opened
       const subtitlesList = player.subtitles.list().filter(sub => sub.kind.includes('subtitle'));
+
       if (config.cssClass === 'ui-subtitlesettingstogglebutton' && subtitlesList.length === 1) {
         const subtitleTrack = subtitlesList[0];
         if (this.isOn()) {
@@ -89,9 +90,18 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
       this.on();
     });
     settingsPanel.onHide.subscribe(() => {
+      if (hasActiveSelection()) this.on();
+      else this.off();
       // Set toggle status to off when the settings panel hides
-      this.off();
     });
+
+    const hasActiveSelection = () => {
+      let items = document.querySelector('.subs .bmpui-ui-listbox');
+      if (items) {
+        const selected = items.querySelector('.bmpui-selected');
+        return !!selected && selected.getAttribute('aria-label') !== 'off';
+      }
+    };
 
     // Ensure that only one `SettingPanel` is visible at once
     // Keep track of shown SettingsPanels
