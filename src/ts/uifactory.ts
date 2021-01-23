@@ -240,6 +240,7 @@ export namespace UIFactory {
       components: [
         subtitleOverlay,
         new BufferingOverlay(),
+        new DLXWatermarkOverlay(),
         new CastStatusOverlay(),
         new PlaybackToggleOverlay(),
         new RecommendationOverlay(),
