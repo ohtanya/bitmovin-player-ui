@@ -9,6 +9,7 @@ import { PlayerAPI, SubtitleCueEvent } from 'bitmovin-player';
 import { i18n } from '../localization/i18n';
 import { VttUtils } from '../vttutils';
 import { VTTProperties } from 'bitmovin-player/types/subtitles/vtt/API';
+import { showCompletionScript } from 'yargs';
 
 /**
  * Overlays the player to display subtitles.

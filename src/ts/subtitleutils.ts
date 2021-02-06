@@ -73,6 +73,10 @@ export class SubtitleSwitchHandler {
     }
 
     let currentSubtitle = this.player.subtitles.list().filter((subtitle) => subtitle.enabled).pop();
+    if (currentSubtitle) {
+      const settingsButton = document.querySelector('.bmpui-ui-subtitlesettingstogglebutton');
+      if (settingsButton) settingsButton.classList.add('bmpui-on');
+    }
     this.listElement.selectItem(currentSubtitle ? currentSubtitle.id : SubtitleSwitchHandler.SUBTITLES_OFF_KEY);
   };
 

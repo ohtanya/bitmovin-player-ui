@@ -57,6 +57,14 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
   }
 
   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
+    const hasActiveSelection = () => {
+      let items = document.querySelector('.subs .bmpui-ui-listbox');
+      if (items) {
+        const selected = items.querySelector('.bmpui-selected');
+        return !!selected && selected.getAttribute('aria-label') !== 'off';
+      }
+    };
+
     super.configure(player, uimanager);
 
     let config = this.getConfig();
@@ -95,13 +103,6 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
       // Set toggle status to off when the settings panel hides
     });
 
-    const hasActiveSelection = () => {
-      let items = document.querySelector('.subs .bmpui-ui-listbox');
-      if (items) {
-        const selected = items.querySelector('.bmpui-selected');
-        return !!selected && selected.getAttribute('aria-label') !== 'off';
-      }
-    };
 
     // Ensure that only one `SettingPanel` is visible at once
     // Keep track of shown SettingsPanels
